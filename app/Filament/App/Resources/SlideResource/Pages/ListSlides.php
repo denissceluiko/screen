@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Filament\Resources\TeamResource\Pages;
+namespace App\Filament\App\Resources\SlideResource\Pages;
 
-use App\Filament\Resources\TeamResource;
+use App\Filament\App\Resources\SlideResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables;
-use Filament\Tables\Columns;
 use Filament\Tables\Table;
 
-class ListTeams extends ListRecords
+class ListSlides extends ListRecords
 {
-    protected static string $resource = TeamResource::class;
+    protected static string $resource = SlideResource::class;
 
     protected function getHeaderActions(): array
     {
@@ -23,16 +22,17 @@ class ListTeams extends ListRecords
     public function table(Table $table): Table
     {
         return $table
-            ->defaultView('view')
             ->columns([
-                Columns\TextColumn::make('name'),
-                Columns\TextColumn::make('slug'),
+                Tables\Columns\ImageColumn::make('path')
+                    ->label(__('Preview'))
+                    ->height(150),
+                Tables\Columns\TextColumn::make('name'),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

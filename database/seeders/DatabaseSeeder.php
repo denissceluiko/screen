@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Screen;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,9 +20,13 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('changeme'),
         ]);
 
-        $user->teams()->create([
+        $team = $user->teams()->create([
             'name' => 'Test',
             'slug' => 'test',
         ]);
+
+        Screen::factory()
+            ->recycle($team)
+            ->create();
     }
 }

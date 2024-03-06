@@ -27,6 +27,7 @@ class AppPanelProvider extends PanelProvider
             ->id('app')
             ->path('t')
             ->tenant(Team::class, slugAttribute: 'slug')
+            ->login()
             ->colors([
                 'primary' => Color::Amber,
             ])

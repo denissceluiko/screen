@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Filament\Resources\TeamResource\Pages;
+namespace App\Filament\App\Resources\SlideShowResource\Pages;
 
-use App\Filament\Resources\TeamResource;
+use App\Filament\App\Resources\SlideShowResource;
 use Filament\Actions;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\EditRecord;
 
-class EditTeam extends EditRecord
+class EditSlideShow extends EditRecord
 {
-    protected static string $resource = TeamResource::class;
+    protected static string $resource = SlideShowResource::class;
 
     protected function getHeaderActions(): array
     {
@@ -19,13 +19,12 @@ class EditTeam extends EditRecord
         ];
     }
 
-    public function form(Form $form) : Form
+    public function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->required(),
-                Forms\Components\TextInput::make('slug')
+                    ->maxLength(255)
                     ->required(),
             ]);
     }
