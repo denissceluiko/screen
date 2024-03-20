@@ -3,6 +3,7 @@
 namespace App\Filament\App\Resources\ScreenResource\Pages;
 
 use App\Filament\App\Resources\ScreenResource;
+use App\Models\Screen;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables;
@@ -32,6 +33,9 @@ class ListScreens extends ListRecords
         ])
         ->actions([
             Tables\Actions\EditAction::make(),
+            Tables\Actions\Action::make('Open')
+                ->url(fn (Screen $record): string => route('screen.display', $record))
+                ->openUrlInNewTab(),
         ])
         ->bulkActions([
             Tables\Actions\BulkActionGroup::make([

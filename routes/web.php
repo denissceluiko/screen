@@ -19,4 +19,4 @@ Route::get('/', function () {
     return redirect()->route('filament.app.auth.login');
 });
 
-Route::get('/s/{screen:slug}', ShowScreen::class);
+Route::get('/s/{screen:slug}', ShowScreen::class)->name('screen.display');
