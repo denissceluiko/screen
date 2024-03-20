@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ScreenController;
+use App\Livewire\ShowScreen;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect()->route('filament.app.auth.login');
 });
+
+Route::get('/s/{screen:slug}', ShowScreen::class);

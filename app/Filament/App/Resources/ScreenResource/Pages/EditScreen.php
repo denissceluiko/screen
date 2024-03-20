@@ -27,6 +27,10 @@ class EditScreen extends EditRecord
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('slug')
+                    ->required()
+                    ->disabled()
+                    ->maxLength(60),
                 Forms\Components\Select::make('slide_show_id')
                     ->label(__('Active slideshow'))
                     ->options(Filament::getTenant()
