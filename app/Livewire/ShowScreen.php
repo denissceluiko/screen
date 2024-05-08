@@ -3,27 +3,22 @@
 namespace App\Livewire;
 
 use App\Models\Screen;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+#[Layout('components.layouts.screen')]
 class ShowScreen extends Component
 {
     public Screen $screen;
-    public array $config;
+    public int $updateInterval;
     public array $slides;
-    public string $time;
 
     public function mount(Screen $screen)
     {
         $this->screen = $screen;
         $this->slides = $this->slides();
-        $this->time = date('d.m.Y H:i');
+        $this->updateInterval = $this->updateInterval();
     }
-
-    // public function boot()
-    // {
-    //     $this->slides = $this->slides();
-    //     $this->time = date('d.m.Y H:i');
-    // }
 
     public function render()
     {
@@ -31,18 +26,32 @@ class ShowScreen extends Component
             ->title($this->screen->name);
     }
 
+    public function update()
+    {
+        $this->slides = $this->slides();
+        $this->updateInterval = $this->updateInterval();
+    }
+
     public function slides(): array
     {
         $slides = $this->screen->slideshow?->slides->pluck('path', 'id')->toArray();
         $formatted = [];
 
+        $i=0;
         foreach ($slides as $id => &$slide) {
             $formatted[] = [
                 'id' => $id,
+                'idx' => $i++,
                 'path' => asset('storage/'.$slide),
             ];
         }
 
         return $formatted;
     }
+
+    public function updateInterval(): int
+    {
+        return $this->screen->slideshow?->settings['switchInterval'];
+    }
+
 }

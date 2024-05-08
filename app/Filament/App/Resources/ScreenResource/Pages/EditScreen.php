@@ -38,6 +38,24 @@ class EditScreen extends EditRecord
                         ->get()
                         ->pluck('name', 'id')
                     ),
+                Forms\Components\Section::make('Settings')
+                    ->description('Settings that apply to the screen and all its slideshows.')
+                    ->schema([
+                        Forms\Components\TextInput::make('settings.width')
+                            ->integer()
+                            ->suffix('px')
+                            ->required(),
+                        Forms\Components\TextInput::make('settings.height')
+                            ->integer()
+                            ->suffix('px')
+                            ->required(),
+                        Forms\Components\TextInput::make('settings.updateInterval')
+                            ->helperText('How often the screen should receive updates?')
+                            ->integer()
+                            ->minValue(1)
+                            ->suffix('seconds')
+                            ->required(),
+                    ])->columns(2),
             ]);
     }
 }

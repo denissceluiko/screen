@@ -26,6 +26,12 @@ class EditSlideShow extends EditRecord
                 Forms\Components\TextInput::make('name')
                     ->maxLength(255)
                     ->required(),
+                Forms\Components\TextInput::make('settings.switchInterval')
+                    ->helperText('Amount of seconds one slide remains on screen')
+                    ->integer()
+                    ->minValue(1)
+                    ->suffix('seconds')
+                    ->required(),
             ]);
     }
 }

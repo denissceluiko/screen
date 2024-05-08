@@ -1,8 +1,25 @@
-<div wire:poll.5s>
-    <div x-data="{ slides: $wire.slides }">
-        <template x-for="slide in slides" :key="slide.id">
-            <img :src="slide.path" width="300px" />
+<div x-data="{
+    config: null,
+    currentIndex: 0,
+    timer: null,
+    initTimer: function() {
+        this.timer = setInterval(this.nextSlide, $wire.updateInterval * 1000);
+    },
+    nextSlide: function() {
+        $data.currentIndex = ($data.currentIndex + 1) % $wire.slides.length;
+    },
+    update: function() {
+        clearInterval(this.timer);
+        this.timer = setInterval(this.nextSlide, $wire.updateInterval * 1000);
+    }
+}" x-init="initTimer()">
+    <div wire:poll.{{ $screen->settings['updateInterval'] }}s="update" x-effect="update()">
+        <template x-for="slide in $wire.slides" :key="slide.idx">
+            <img
+                :src="slide.path"
+                width="{{ $screen->settings['width'] }}px"
+                height="{{ $screen->settings['height'] }}px"
+                x-show="slide.idx == currentIndex" />
         </template>
-        <span x-text="time">q</span>
     </div>
 </div>
