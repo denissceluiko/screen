@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Dencel',
             'email' => 'admin@celuiko.com',
             'password' => bcrypt('changeme'),
+            'role' => 'admin',
         ]);
 
         $team = $user->teams()->create([

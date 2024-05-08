@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasDefaultTenant;
 use Filament\Models\Contracts\HasTenants;
 use Filament\Panel;
@@ -16,7 +17,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements HasTenants, HasDefaultTenant
+class User extends Authenticatable implements HasTenants, HasDefaultTenant, FilamentUser
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -29,6 +30,7 @@ class User extends Authenticatable implements HasTenants, HasDefaultTenant
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -64,6 +66,20 @@ class User extends Authenticatable implements HasTenants, HasDefaultTenant
     public function canAccessTenant(Model $tenant): bool
     {
         return $this->teams->contains($tenant);
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return match ($panel->getId()) {
+            'app' => true,
+            'admin' => $this->isAdmin(),
+            default => false,
+        };
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
     }
 
     public function getDefaultTenant(Panel $panel): ?Model
