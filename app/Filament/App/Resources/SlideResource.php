@@ -27,6 +27,7 @@ class SlideResource extends Resource
                     ->required(),
                 Forms\Components\Select::make('type')
                     ->options(SlideTypes::class)
+                    ->default(SlideTypes::Image)
                     ->required(),
                 Forms\Components\FileUpload::make('original_path')
                     ->storeFileNamesIn('original_name')
