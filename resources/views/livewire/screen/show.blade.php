@@ -17,8 +17,8 @@
         <template x-for="slide in $wire.slides" :key="slide.idx">
             <img
                 :src="slide.path"
-                width="{{ $screen->settings['width'] }}px"
-                height="{{ $screen->settings['height'] }}px"
+                width="{{ $screen->settings['width'] }}"
+                height="{{ $screen->settings['height'] }}"
                 x-show="slide.idx == currentIndex" />
         </template>
     </div>
