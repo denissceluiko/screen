@@ -6,6 +6,12 @@
         <meta http-equiv="refresh" content="86400">
 
         <title>{{ $title ?? 'Page Title' }}</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+        </style>
     </head>
     <body>
         {{ $slot }}
