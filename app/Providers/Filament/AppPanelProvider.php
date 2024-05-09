@@ -6,6 +6,7 @@ use App\Models\Team;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -40,6 +41,15 @@ class AppPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/App/Widgets'), for: 'App\\Filament\\App\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
+            ])
+            ->navigationItems([
+                NavigationItem::make('Panel')
+                    ->label(fn (): string => __('Panel'))
+                    ->icon('heroicon-o-wrench-screwdriver')
+                    ->url(fn (): string => route('filament.admin.pages.dashboard'))
+                    ->group('Admin')
+                    ->isActiveWhen(fn () => request()->routeIs('filament.admin.pages.dashboard'))
+                    ->visible(fn(): bool => auth()->user()->isAdmin()),
             ])
             ->middleware([
                 EncryptCookies::class,

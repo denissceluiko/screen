@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\TeamResource\Pages;
 
 use App\Filament\Resources\TeamResource;
+use App\Models\Team;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables;
@@ -33,6 +34,9 @@ class ListTeams extends ListRecords
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
+                Tables\Actions\Action::make('Open')
+                    ->icon('heroicon-o-link')
+                    ->url(fn(Team $record): string => route('filament.app.pages.dashboard', ['tenant' => $record->slug])),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
