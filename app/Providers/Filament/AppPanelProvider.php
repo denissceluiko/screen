@@ -30,6 +30,7 @@ class AppPanelProvider extends PanelProvider
             ->tenant(Team::class, slugAttribute: 'slug')
             ->login()
             ->profile()
+            ->passwordReset()
             ->colors([
                 'primary' => Color::Amber,
             ])
