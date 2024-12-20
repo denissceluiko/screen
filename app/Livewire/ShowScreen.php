@@ -37,6 +37,10 @@ class ShowScreen extends Component
         $slides = $this->screen->slideshow?->slides->pluck('path', 'id')->toArray();
         $formatted = [];
 
+        if (empty($slides)) {
+            return $formatted;
+        }
+
         $i=0;
         foreach ($slides as $id => &$slide) {
             $formatted[] = [
@@ -51,7 +55,7 @@ class ShowScreen extends Component
 
     public function updateInterval(): int
     {
-        return $this->screen->slideshow?->settings['switchInterval'];
+        return $this->screen->slideshow?->settings['switchInterval'] ?? 10;
     }
 
 }
