@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class SlideShow extends Model
 {
-    use HasFactory, InTeam, HasSettings;
+    use HasFactory, HasSettings, InTeam;
 
     protected $fillable = [
         'name', 'settings',
@@ -27,7 +27,10 @@ class SlideShow extends Model
 
     public function slides(): BelongsToMany
     {
-        return $this->belongsToMany(Slide::class);
+        return $this->belongsToMany(Slide::class)
+            ->using(SlideShowSlide::class)
+            ->withPivot('sort_order')
+            ->orderByPivot('sort_order', 'asc');
     }
 
     public function screen(): HasMany

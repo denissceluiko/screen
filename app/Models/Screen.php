@@ -7,11 +7,10 @@ use App\Traits\InTeam;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Screen extends Model
 {
-    use HasFactory, InTeam, HasSettings;
+    use HasFactory, HasSettings, InTeam;
 
     protected $fillable = [
         'name', 'slug', 'settings', 'slide_show_id',
@@ -19,6 +18,7 @@ class Screen extends Model
 
     protected $casts = [
         'settings' => 'array',
+        'last_seen_at' => 'datetime',
     ];
 
     protected static array $defaultSettings = [

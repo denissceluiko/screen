@@ -24,23 +24,37 @@ class ListScreens extends ListRecords
     public function table(Table $table): Table
     {
         return $table->columns([
-            Columns\TextColumn::make('name'),
-            Columns\TextColumn::make('slug'),
+            Columns\TextColumn::make('name')
+                ->searchable(),
+            Columns\TextColumn::make('slug')
+                ->label(__('Display URL'))
+                ->getStateUsing(fn (Screen $record): string => route('screen.display', $record))
+                ->copyable()
+                ->copyMessage(__('URL copied'))
+                ->color('gray')
+                ->fontFamily('mono'),
             Columns\TextColumn::make('slideShow.name')
-                ->placeholder(__('None')),
-        ])->filters([
-            //
+                ->placeholder(__('None'))
+                ->searchable(),
+            Columns\TextColumn::make('last_seen_at')
+                ->label(__('Last Seen'))
+                ->since()
+                ->placeholder(__('Never'))
+                ->sortable(),
         ])
-        ->actions([
-            Tables\Actions\EditAction::make(),
-            Tables\Actions\Action::make('Open')
-                ->url(fn (Screen $record): string => route('screen.display', $record))
-                ->openUrlInNewTab(),
-        ])
-        ->bulkActions([
-            Tables\Actions\BulkActionGroup::make([
-                Tables\Actions\DeleteBulkAction::make(),
-            ]),
-        ]);
+            ->filters([
+                //
+            ])
+            ->actions([
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('Open')
+                    ->url(fn (Screen $record): string => route('screen.display', $record))
+                    ->openUrlInNewTab(),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
+            ]);
     }
 }

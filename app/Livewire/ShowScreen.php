@@ -10,8 +10,11 @@ use Livewire\Component;
 class ShowScreen extends Component
 {
     public Screen $screen;
+
     public int $updateInterval;
+
     public array $slides;
+
     public string $slidesHash = '';
 
     public function mount(Screen $screen)
@@ -20,6 +23,7 @@ class ShowScreen extends Component
         $this->slidesHash = $this->computeSlidesHash();
         $this->slides = $this->slides();
         $this->updateInterval = $this->updateInterval();
+        $this->recordSeen();
     }
 
     public function render()
@@ -30,6 +34,8 @@ class ShowScreen extends Component
 
     public function update()
     {
+        $this->recordSeen();
+
         $hash = $this->computeSlidesHash();
 
         if ($hash === $this->slidesHash) {
@@ -45,13 +51,13 @@ class ShowScreen extends Component
     {
         $slideshow = $this->screen->slideshow;
 
-        if (!$slideshow) {
+        if (! $slideshow) {
             return md5($this->screen->updated_at->timestamp);
         }
 
-        $parts = $this->screen->updated_at->timestamp . '|'
-            . $slideshow->updated_at->timestamp . '|'
-            . $slideshow->slides->map(fn($s) => $s->id . ':' . $s->updated_at->timestamp)->join(',');
+        $parts = $this->screen->updated_at->timestamp.'|'
+            .$slideshow->updated_at->timestamp.'|'
+            .$slideshow->slides->map(fn ($s) => $s->id.':'.$s->updated_at->timestamp)->join(',');
 
         return md5($parts);
     }
@@ -60,18 +66,26 @@ class ShowScreen extends Component
     {
         $slideshow = $this->screen->slideshow;
 
-        if (!$slideshow) {
+        if (! $slideshow) {
             return [];
         }
 
         return $slideshow->slides
             ->values()
-            ->map(fn($slide, $idx) => [
-                'id'   => $slide->id,
-                'idx'  => $idx,
+            ->map(fn ($slide, $idx) => [
+                'id' => $slide->id,
+                'idx' => $idx,
                 'path' => route('slide.show', $slide->token),
             ])
             ->all();
+    }
+
+    private function recordSeen(): void
+    {
+        $this->screen->timestamps = false;
+        $this->screen->last_seen_at = now();
+        $this->screen->save();
+        $this->screen->timestamps = true;
     }
 
     public function updateInterval(): int

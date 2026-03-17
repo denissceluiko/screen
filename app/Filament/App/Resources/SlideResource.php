@@ -4,13 +4,11 @@ namespace App\Filament\App\Resources;
 
 use App\Enums\SlideTypes;
 use App\Filament\App\Resources\SlideResource\Pages;
-use App\Filament\App\Resources\SlideResource\RelationManagers;
+use App\Filament\Components\Schema\SlideFileUpload;
 use App\Models\Slide;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SlideResource extends Resource
 {
@@ -29,14 +27,9 @@ class SlideResource extends Resource
                     ->options(SlideTypes::class)
                     ->default(SlideTypes::Image)
                     ->required(),
-                Forms\Components\FileUpload::make('original_path')
+                SlideFileUpload::make()
                     ->storeFileNamesIn('original_name')
-                    ->disk('slides')
-                    ->label(__('File'))
-                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/gif', 'image/webp'])
-                    ->maxSize(10240)
-                    ->rules(['extensions:jpg,jpeg,png,gif,webp'])
-                    ->required(),
+                    ->label(__('File')),
             ]);
     }
 
