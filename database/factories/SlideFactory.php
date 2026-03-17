@@ -4,22 +4,23 @@ namespace Database\Factories;
 
 use App\Models\Team;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Slide>
  */
 class SlideFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
-            'team_id' => Team::factory(),
-            'name' => $this->faker->word(),
+            'team_id'       => Team::factory(),
+            'name'          => $this->faker->word(),
+            'type'          => 'image',
+            'path'          => $this->faker->uuid() . '.jpg',
+            'original_path' => $this->faker->uuid() . '.jpg',
+            'original_name' => $this->faker->word() . '.jpg',
+            'token'         => Str::random(32),
         ];
     }
 }

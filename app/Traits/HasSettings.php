@@ -17,7 +17,7 @@ trait HasSettings
                 }
                 return array_merge(static::$defaultSettings, $decoded ?? []);
             },
-            set: fn(array $value) => json_encode($value),
+            set: fn(?array $value) => json_encode($value ?? []),
         );
     }
 }
