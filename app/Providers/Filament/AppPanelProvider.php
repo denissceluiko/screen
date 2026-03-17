@@ -34,6 +34,7 @@ class AppPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
+            ->favicon(asset('images/screen.svg'))
             ->discoverResources(in: app_path('Filament/App/Resources'), for: 'App\\Filament\\App\\Resources')
             ->discoverPages(in: app_path('Filament/App/Pages'), for: 'App\\Filament\\App\\Pages')
             ->pages([
@@ -50,7 +51,7 @@ class AppPanelProvider extends PanelProvider
                     ->url(fn (): string => route('filament.admin.pages.dashboard'))
                     ->group('Admin')
                     ->isActiveWhen(fn () => request()->routeIs('filament.admin.pages.dashboard'))
-                    ->visible(fn(): bool => auth()->user()->isAdmin()),
+                    ->visible(fn (): bool => auth()->user()->isAdmin()),
             ])
             ->middleware([
                 EncryptCookies::class,
