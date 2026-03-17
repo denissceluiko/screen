@@ -19,7 +19,13 @@ trait InTeam
 
         self::creating(function (Model $model) {
             if (empty($model->team_id)) {
-                $model->team_id = Filament::getTenant()->id;
+                $tenant = Filament::getTenant();
+
+                throw_if(is_null($tenant), \RuntimeException::class,
+                    'Cannot create ' . class_basename($model) . ' without an active tenant context.'
+                );
+
+                $model->team_id = $tenant->id;
             }
         });
     }

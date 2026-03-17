@@ -36,6 +36,18 @@ return [
             'throw' => false,
         ],
 
+        'slides' => [
+            'driver' => 'local',
+            'root' => storage_path('app/slides'),
+            'throw' => false,
+        ],
+
+        'uploads-tmp' => [
+            'driver' => 'local',
+            'root' => storage_path('app/uploads-tmp'),
+            'throw' => false,
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

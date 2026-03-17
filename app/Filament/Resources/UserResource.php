@@ -8,11 +8,13 @@ use App\Filament\Resources\UserResource\RelationManagers\TeamRelationManager;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Resources\Pages\CreateRecord;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Hash;
 
 class UserResource extends Resource
 {
@@ -27,7 +29,15 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required(),
                 Forms\Components\TextInput::make('email')
+                    ->email()
+                    ->unique(User::class, 'email', ignoreRecord: true)
                     ->required(),
+                Forms\Components\TextInput::make('password')
+                    ->password()
+                    ->minLength(8)
+                    ->required(fn (string $operation): bool => $operation === 'create')
+                    ->dehydrated(fn (?string $state): bool => filled($state))
+                    ->dehydrateStateUsing(fn (string $state): string => Hash::make($state)),
             ]);
     }
 

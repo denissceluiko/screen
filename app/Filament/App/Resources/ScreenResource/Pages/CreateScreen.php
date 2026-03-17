@@ -3,10 +3,10 @@
 namespace App\Filament\App\Resources\ScreenResource\Pages;
 
 use App\Filament\App\Resources\ScreenResource;
-use Filament\Actions;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Support\Str;
 
 class CreateScreen extends CreateRecord
 {
@@ -24,7 +24,7 @@ class CreateScreen extends CreateRecord
 
     public function mutateFormDataBeforeCreate(array $data): array
     {
-        $data['slug'] = substr(sha1(uniqid()), 0, 15);
+        $data['slug'] = Str::random(32);
 
         return $data;
     }

@@ -12,10 +12,12 @@ class ShowScreen extends Component
     public Screen $screen;
     public int $updateInterval;
     public array $slides;
+    public string $slidesHash = '';
 
     public function mount(Screen $screen)
     {
         $this->screen = $screen;
+        $this->slidesHash = $this->computeSlidesHash();
         $this->slides = $this->slides();
         $this->updateInterval = $this->updateInterval();
     }
@@ -28,34 +30,52 @@ class ShowScreen extends Component
 
     public function update()
     {
+        $hash = $this->computeSlidesHash();
+
+        if ($hash === $this->slidesHash) {
+            return;
+        }
+
+        $this->slidesHash = $hash;
         $this->slides = $this->slides();
         $this->updateInterval = $this->updateInterval();
     }
 
+    private function computeSlidesHash(): string
+    {
+        $slideshow = $this->screen->slideshow;
+
+        if (!$slideshow) {
+            return md5($this->screen->updated_at->timestamp);
+        }
+
+        $parts = $this->screen->updated_at->timestamp . '|'
+            . $slideshow->updated_at->timestamp . '|'
+            . $slideshow->slides->map(fn($s) => $s->id . ':' . $s->updated_at->timestamp)->join(',');
+
+        return md5($parts);
+    }
+
     public function slides(): array
     {
-        $slides = $this->screen->slideshow?->slides->pluck('path', 'id')->toArray();
-        $formatted = [];
+        $slideshow = $this->screen->slideshow;
 
-        if (empty($slides)) {
-            return $formatted;
+        if (!$slideshow) {
+            return [];
         }
 
-        $i=0;
-        foreach ($slides as $id => &$slide) {
-            $formatted[] = [
-                'id' => $id,
-                'idx' => $i++,
-                'path' => asset('storage/'.$slide),
-            ];
-        }
-
-        return $formatted;
+        return $slideshow->slides
+            ->values()
+            ->map(fn($slide, $idx) => [
+                'id'   => $slide->id,
+                'idx'  => $idx,
+                'path' => route('slide.show', $slide->token),
+            ])
+            ->all();
     }
 
     public function updateInterval(): int
     {
         return $this->screen->slideshow?->settings['switchInterval'] ?? 10;
     }
-
 }

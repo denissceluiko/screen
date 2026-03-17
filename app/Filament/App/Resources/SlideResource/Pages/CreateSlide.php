@@ -8,6 +8,7 @@ use Filament\Actions;
 use Filament\Facades\Filament;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class CreateSlide extends CreateRecord
 {
@@ -16,6 +17,7 @@ class CreateSlide extends CreateRecord
     protected function handleRecordCreation(array $data): Model
     {
         $data['path'] = OptimizerService::optimize($data['original_path']);
+        $data['token'] = Str::random(32);
 
         return Filament::getTenant()
             ->slides()

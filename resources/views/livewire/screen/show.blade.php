@@ -13,12 +13,12 @@
         this.timer = setInterval(this.nextSlide, $wire.updateInterval * 1000);
     }
 }" x-init="initTimer()">
-    <div wire:poll.{{ $screen->settings['updateInterval'] }}s="update" x-effect="update()">
+    <div wire:poll.{{ (int) $screen->settings['updateInterval'] }}s="update" x-effect="update()">
         <template x-for="slide in $wire.slides" :key="slide.idx">
             <img
                 :src="slide.path"
-                width="{{ $screen->settings['width'] }}"
-                height="{{ $screen->settings['height'] }}"
+                width="{{ (int) $screen->settings['width'] }}"
+                height="{{ (int) $screen->settings['height'] }}"
                 x-show="slide.idx == currentIndex" />
         </template>
     </div>

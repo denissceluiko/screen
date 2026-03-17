@@ -31,8 +31,11 @@ class SlideResource extends Resource
                     ->required(),
                 Forms\Components\FileUpload::make('original_path')
                     ->storeFileNamesIn('original_name')
+                    ->disk('slides')
                     ->label(__('File'))
-                    ->image()
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/gif', 'image/webp'])
+                    ->maxSize(10240)
+                    ->rules(['extensions:jpg,jpeg,png,gif,webp'])
                     ->required(),
             ]);
     }

@@ -12,7 +12,7 @@ class Slide extends Model
     use HasFactory, InTeam;
 
     protected $fillable = [
-        'name', 'type', 'path', 'original_path', 'original_name',
+        'name', 'type', 'path', 'original_path', 'original_name', 'token',
     ];
 
     public function slideShows(): BelongsToMany

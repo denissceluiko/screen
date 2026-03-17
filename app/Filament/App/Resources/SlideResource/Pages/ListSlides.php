@@ -25,7 +25,8 @@ class ListSlides extends ListRecords
             ->columns([
                 Tables\Columns\ImageColumn::make('path')
                     ->label(__('Preview'))
-                    ->height(150),
+                    ->height(150)
+                    ->getStateUsing(fn ($record) => route('slide.show', $record->token)),
                 Tables\Columns\TextColumn::make('name'),
             ])
             ->filters([

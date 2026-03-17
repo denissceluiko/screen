@@ -5,6 +5,7 @@ namespace App\Filament\App\Resources\SlideShowResource\RelationManagers;
 use App\Filament\App\Resources\SlideResource;
 use App\Services\OptimizerService;
 use Filament\Facades\Filament;
+use Illuminate\Support\Str;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -28,7 +29,8 @@ class SlidesRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\ImageColumn::make('path')
                     ->label(__('Preview'))
-                    ->height(150),
+                    ->height(150)
+                    ->getStateUsing(fn ($record) => route('slide.show', $record->token)),
                 Tables\Columns\TextColumn::make('name'),
             ])
             ->filters([
@@ -40,7 +42,8 @@ class SlidesRelationManager extends RelationManager
                 Tables\Actions\CreateAction::make()
                     ->mutateFormDataUsing(function (array $data): array {
                         $data['path'] = OptimizerService::optimize($data['original_path']);
-                        
+                        $data['token'] = Str::random(32);
+
                         return $data;
                     }),
             ])

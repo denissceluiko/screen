@@ -10,9 +10,12 @@ trait HasSettings
     {
         return Attribute::make(
             get: function(?string $value): array {
-                $value = empty($value) ? [] : json_decode($value, true);
-                $value ??= [];
-                return array_merge(static::$defaultSettings, $value);
+                try {
+                    $decoded = empty($value) ? [] : json_decode($value, true, 512, JSON_THROW_ON_ERROR);
+                } catch (\JsonException) {
+                    $decoded = [];
+                }
+                return array_merge(static::$defaultSettings, $decoded ?? []);
             },
             set: fn(array $value) => json_encode($value),
         );
