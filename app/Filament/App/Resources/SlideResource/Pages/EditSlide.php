@@ -2,8 +2,9 @@
 
 namespace App\Filament\App\Resources\SlideResource\Pages;
 
+use App\Enums\SlideStatus;
 use App\Filament\App\Resources\SlideResource;
-use App\Services\OptimizerService;
+use App\Jobs\ProcessUploadedFile;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
@@ -21,9 +22,19 @@ class EditSlide extends EditRecord
     protected function mutateFormDataBeforeSave(array $data): array
     {
         if (isset($data['original_path'])) {
-            $data['path'] = OptimizerService::optimize($data['original_path']);
+            $data['path'] = null;
+            $data['status'] = SlideStatus::Pending;
         }
 
         return $data;
+    }
+
+    protected function afterSave(): void
+    {
+        $record = $this->getRecord();
+
+        if ($record->status === SlideStatus::Pending) {
+            ProcessUploadedFile::dispatch($record);
+        }
     }
 }

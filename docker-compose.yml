@@ -19,6 +19,9 @@ services:
             IGNITION_LOCAL_SITES_PATH: '${PWD}'
         volumes:
             - '.:/var/www/html'
+            - '/var/run/docker.sock:/var/run/docker.sock'
+        group_add:
+            - '${DOCKER_SOCKET_GID:-1001}'
         networks:
             - sail
         depends_on:
@@ -27,6 +30,7 @@ services:
             - meilisearch
             - mailpit
             - selenium
+            - yara
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
@@ -98,6 +102,14 @@ services:
             - 'host.docker.internal:host-gateway'
         volumes:
             - '/dev/shm:/dev/shm'
+        networks:
+            - sail
+    yara:
+        image: 'blacktop/yara:latest'
+        entrypoint: ['tail', '-f', '/dev/null']
+        volumes:
+            - '.:/var/www/html'
+            - './storage/yara-rules:/rules:ro'
         networks:
             - sail
 networks:

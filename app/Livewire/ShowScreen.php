@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Enums\SlideStatus;
 use App\Models\Screen;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -71,6 +72,7 @@ class ShowScreen extends Component
         }
 
         return $slideshow->slides
+            ->filter(fn ($slide) => $slide->status === SlideStatus::Clean)
             ->values()
             ->map(fn ($slide, $idx) => [
                 'id' => $slide->id,

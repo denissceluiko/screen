@@ -2,10 +2,11 @@
 
 namespace App\Filament\App\Resources\SlideResource\Pages;
 
+use App\Enums\SlideStatus;
 use App\Enums\SlideTypes;
 use App\Filament\App\Resources\SlideResource;
 use App\Filament\Components\Schema\SlideFileUpload;
-use App\Services\OptimizerService;
+use App\Jobs\ProcessUploadedFile;
 use Filament\Actions;
 use Filament\Facades\Filament;
 use Filament\Notifications\Notification;
@@ -38,20 +39,21 @@ class ListSlides extends ListRecords
                     foreach ($files as $index => $filePath) {
                         $originalName = $originalNames[$index] ?? basename($filePath);
                         $name = pathinfo($originalName, PATHINFO_FILENAME);
-                        $optimizedPath = OptimizerService::optimize($filePath);
 
-                        $tenant->slides()->create([
+                        $slide = $tenant->slides()->create([
                             'name' => $name,
                             'type' => SlideTypes::Image,
-                            'path' => $optimizedPath,
                             'original_path' => $filePath,
                             'original_name' => $originalName,
                             'token' => Str::random(32),
+                            'status' => SlideStatus::Pending,
                         ]);
+
+                        ProcessUploadedFile::dispatch($slide);
                     }
 
                     Notification::make()
-                        ->title(trans_choice(':count slide uploaded|:count slides uploaded', count($files), ['count' => count($files)]))
+                        ->title(trans_choice(':count slide queued|:count slides queued', count($files), ['count' => count($files)]))
                         ->success()
                         ->send();
                 }),
@@ -69,6 +71,9 @@ class ListSlides extends ListRecords
                     ->getStateUsing(fn ($record) => route('slide.show', $record->token)),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->sortable(),
             ])
             ->filters([
                 //

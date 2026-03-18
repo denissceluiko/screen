@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\SlideStatus;
 use App\Models\Slide;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -10,11 +11,13 @@ class SlideController extends Controller
 {
     public function show(Request $request, Slide $slide): \Symfony\Component\HttpFoundation\Response
     {
+        abort_unless($slide->status === SlideStatus::Clean, 404);
+
         $disk = Storage::disk('slides');
 
         abort_unless($disk->exists($slide->path), 404);
 
-        $etag = '"' . md5($slide->token . $slide->updated_at->timestamp) . '"';
+        $etag = '"'.md5($slide->token.$slide->updated_at->timestamp).'"';
 
         if ($request->header('If-None-Match') === $etag) {
             return response()->noContent(304);

@@ -2,9 +2,9 @@
 
 namespace App\Filament\App\Resources\SlideResource\Pages;
 
+use App\Enums\SlideStatus;
 use App\Filament\App\Resources\SlideResource;
-use App\Services\OptimizerService;
-use Filament\Actions;
+use App\Jobs\ProcessUploadedFile;
 use Filament\Facades\Filament;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
@@ -16,11 +16,15 @@ class CreateSlide extends CreateRecord
 
     protected function handleRecordCreation(array $data): Model
     {
-        $data['path'] = OptimizerService::optimize($data['original_path']);
         $data['token'] = Str::random(32);
+        $data['status'] = SlideStatus::Pending;
 
-        return Filament::getTenant()
+        $slide = Filament::getTenant()
             ->slides()
             ->create($data);
+
+        ProcessUploadedFile::dispatch($slide);
+
+        return $slide;
     }
 }
