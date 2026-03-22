@@ -2,7 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Filament\App\Resources\SlideResource\Pages\ListSlides;
+use App\Filament\App\Resources\Slides\Pages\ListSlides;
+use App\Models\Slide;
 use App\Models\Team;
 use App\Models\User;
 use Filament\Facades\Filament;
@@ -90,7 +91,7 @@ class BulkSlideUploadTest extends TestCase
                 'original_names' => ['img1.jpg', 'img2.jpg'],
             ]);
 
-        $tokens = \App\Models\Slide::pluck('token');
+        $tokens = Slide::pluck('token');
 
         $this->assertCount(2, $tokens);
         $this->assertCount(2, $tokens->unique());

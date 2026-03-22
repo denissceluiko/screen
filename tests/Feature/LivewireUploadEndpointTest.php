@@ -12,7 +12,7 @@ class LivewireUploadEndpointTest extends TestCase
 
     public function test_unauthenticated_request_is_rejected(): void
     {
-        $response = $this->postJson('/livewire/upload-file');
+        $response = $this->postJson(route('livewire.upload-file'));
 
         // postJson sends Accept: application/json so the auth middleware returns 401
         $response->assertUnauthorized();
@@ -24,14 +24,14 @@ class LivewireUploadEndpointTest extends TestCase
 
         // Authenticated but no signed URL — Livewire rejects with 401, not a login redirect.
         // This confirms auth was satisfied but the signature check caught the bare request.
-        $response = $this->actingAs($user)->postJson('/livewire/upload-file');
+        $response = $this->actingAs($user)->postJson(route('livewire.upload-file'));
 
         $response->assertUnauthorized();
     }
 
     public function test_unauthenticated_browser_request_redirects_to_login(): void
     {
-        $response = $this->post('/livewire/upload-file');
+        $response = $this->post(route('livewire.upload-file'));
 
         $response->assertRedirectToRoute('filament.app.auth.login');
     }

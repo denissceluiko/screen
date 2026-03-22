@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Filament\App\Resources\SlideShowResource\Pages\ListSlideShows;
+use App\Filament\App\Resources\SlideShows\Pages\ListSlideShows;
 use App\Models\Slide;
 use App\Models\SlideShow;
 use App\Models\Team;
