@@ -2,11 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Screen;
 use App\Models\Team;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Screen>
+ * @extends Factory<Screen>
  */
 class ScreenFactory extends Factory
 {

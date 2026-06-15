@@ -3,8 +3,8 @@
 namespace App\Filament\App\Resources\Screens\Pages;
 
 use App\Filament\App\Resources\Screens\ScreenResource;
+use App\Models\Team;
 use Filament\Actions\DeleteAction;
-use Filament\Facades\Filament;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\EditRecord;
@@ -13,8 +13,10 @@ use Filament\Schemas\Schema;
 
 class EditScreen extends EditRecord
 {
+    #[\Override]
     protected static string $resource = ScreenResource::class;
 
+    #[\Override]
     protected function getHeaderActions(): array
     {
         return [
@@ -22,6 +24,7 @@ class EditScreen extends EditRecord
         ];
     }
 
+    #[\Override]
     public function form(Schema $schema): Schema
     {
         return $schema
@@ -35,7 +38,7 @@ class EditScreen extends EditRecord
                     ->maxLength(60),
                 Select::make('slide_show_id')
                     ->label(__('Active slideshow'))
-                    ->options(Filament::getTenant()
+                    ->options(Team::current()
                         ->slideShows()
                         ->get()
                         ->pluck('name', 'id')

@@ -8,8 +8,10 @@ use Illuminate\Support\Facades\Storage;
 
 class MigrateSlidesDisk extends Command
 {
+    #[\Override]
     protected $signature = 'slides:migrate-disk';
 
+    #[\Override]
     protected $description = 'Move existing slide files from the public disk to the private slides disk';
 
     public function handle(): int
@@ -21,6 +23,7 @@ class MigrateSlidesDisk extends Command
 
         if ($records->isEmpty()) {
             $this->info('No slides found, nothing to migrate.');
+
             return self::SUCCESS;
         }
 
@@ -42,6 +45,7 @@ class MigrateSlidesDisk extends Command
                     $this->newLine();
                     $this->warn("Slide #{$slide->id}: file not found on public disk — {$file}");
                     $skipped++;
+
                     continue;
                 }
 

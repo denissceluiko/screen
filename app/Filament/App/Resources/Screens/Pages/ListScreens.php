@@ -15,8 +15,10 @@ use Filament\Tables\Table;
 
 class ListScreens extends ListRecords
 {
+    #[\Override]
     protected static string $resource = ScreenResource::class;
 
+    #[\Override]
     protected function getHeaderActions(): array
     {
         return [
@@ -24,6 +26,7 @@ class ListScreens extends ListRecords
         ];
     }
 
+    #[\Override]
     public function table(Table $table): Table
     {
         return $table->columns([

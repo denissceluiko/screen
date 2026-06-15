@@ -12,10 +12,12 @@ class Screen extends Model
 {
     use HasFactory, HasSettings, InTeam;
 
+    #[\Override]
     protected $fillable = [
         'name', 'slug', 'settings', 'slide_show_id',
     ];
 
+    #[\Override]
     protected $casts = [
         'settings' => 'array',
         'last_seen_at' => 'datetime',
@@ -27,6 +29,7 @@ class Screen extends Model
         'updateInterval' => '10',
     ];
 
+    /** @return BelongsTo<SlideShow, $this> */
     public function slideShow(): BelongsTo
     {
         return $this->belongsTo(SlideShow::class);

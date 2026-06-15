@@ -12,6 +12,7 @@ class Handler extends ExceptionHandler
      *
      * @var array<int, string>
      */
+    #[\Override]
     protected $dontFlash = [
         'current_password',
         'password',
@@ -21,9 +22,10 @@ class Handler extends ExceptionHandler
     /**
      * Register the exception handling callbacks for the application.
      */
+    #[\Override]
     public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
+        $this->reportable(function (Throwable $e): void {
             //
         });
     }

@@ -9,8 +9,10 @@ use Filament\Schemas\Schema;
 
 class CreateSlideShow extends CreateRecord
 {
+    #[\Override]
     protected static string $resource = SlideShowResource::class;
 
+    #[\Override]
     public function form(Schema $schema): Schema
     {
         return $schema

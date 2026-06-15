@@ -5,13 +5,13 @@ namespace App\Filament\App\Resources\Slides\Pages;
 use App\Enums\SlideTypes;
 use App\Filament\App\Resources\Slides\SlideResource;
 use App\Filament\Components\Schema\SlideFileUpload;
+use App\Models\Team;
 use App\Services\OptimizerService;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Facades\Filament;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables\Columns\ImageColumn;
@@ -21,8 +21,10 @@ use Illuminate\Support\Str;
 
 class ListSlides extends ListRecords
 {
+    #[\Override]
     protected static string $resource = SlideResource::class;
 
+    #[\Override]
     protected function getHeaderActions(): array
     {
         return [
@@ -38,7 +40,7 @@ class ListSlides extends ListRecords
                 ->action(function (array $data): void {
                     $files = (array) $data['files'];
                     $originalNames = (array) ($data['original_names'] ?? []);
-                    $tenant = Filament::getTenant();
+                    $tenant = Team::current();
 
                     foreach ($files as $index => $filePath) {
                         $originalName = $originalNames[$index] ?? basename($filePath);
@@ -64,6 +66,7 @@ class ListSlides extends ListRecords
         ];
     }
 
+    #[\Override]
     public function table(Table $table): Table
     {
         return $table

@@ -2,11 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\SlideShow;
 use App\Models\Team;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\SlideShow>
+ * @extends Factory<SlideShow>
  */
 class SlideShowFactory extends Factory
 {

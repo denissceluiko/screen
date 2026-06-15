@@ -5,8 +5,8 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Screen;
-use App\Models\Slide;
 use App\Models\SlideShow;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = \App\Models\User::factory()->create([
+        $user = User::factory()->create([
             'name' => 'Dencel',
             'email' => 'admin@celuiko.com',
             'password' => bcrypt('changeme'),

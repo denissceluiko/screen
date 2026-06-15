@@ -9,8 +9,10 @@ use Filament\Schemas\Schema;
 
 class CreateTeam extends CreateRecord
 {
+    #[\Override]
     protected static string $resource = TeamResource::class;
 
+    #[\Override]
     public function form(Schema $schema): Schema
     {
         return $schema
@@ -20,6 +22,7 @@ class CreateTeam extends CreateRecord
             ]);
     }
 
+    #[\Override]
     public function mutateFormDataBeforeCreate(array $data): array
     {
         $data['slug'] = substr(md5($data['name'].time()), 0, 6);

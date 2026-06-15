@@ -18,12 +18,12 @@ class InTeamTest extends TestCase
         $this->expectExceptionMessageMatches('/active tenant context/');
 
         Slide::create([
-            'name'          => 'Test',
-            'type'          => 'image',
-            'path'          => 'test.jpg',
+            'name' => 'Test',
+            'type' => 'image',
+            'path' => 'test.jpg',
             'original_path' => 'test.jpg',
             'original_name' => 'test.jpg',
-            'token'         => Str::random(32),
+            'token' => Str::random(32),
         ]);
     }
 
@@ -34,13 +34,13 @@ class InTeamTest extends TestCase
         // team_id is not in $fillable (intentionally — InTeam sets it from the tenant).
         // forceFill bypasses mass-assignment so we can set it directly in tests.
         $slide = (new Slide)->forceFill([
-            'team_id'       => $team->id,
-            'name'          => 'Test',
-            'type'          => 'image',
-            'path'          => 'test.jpg',
+            'team_id' => $team->id,
+            'name' => 'Test',
+            'type' => 'image',
+            'path' => 'test.jpg',
             'original_path' => 'test.jpg',
             'original_name' => 'test.jpg',
-            'token'         => Str::random(32),
+            'token' => Str::random(32),
         ]);
         $slide->save();
 

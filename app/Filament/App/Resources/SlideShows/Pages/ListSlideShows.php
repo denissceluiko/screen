@@ -8,8 +8,10 @@ use Filament\Resources\Pages\ListRecords;
 
 class ListSlideShows extends ListRecords
 {
+    #[\Override]
     protected static string $resource = SlideShowResource::class;
 
+    #[\Override]
     protected function getHeaderActions(): array
     {
         return [

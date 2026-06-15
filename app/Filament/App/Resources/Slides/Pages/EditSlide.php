@@ -9,8 +9,10 @@ use Filament\Resources\Pages\EditRecord;
 
 class EditSlide extends EditRecord
 {
+    #[\Override]
     protected static string $resource = SlideResource::class;
 
+    #[\Override]
     protected function getHeaderActions(): array
     {
         return [
@@ -18,6 +20,7 @@ class EditSlide extends EditRecord
         ];
     }
 
+    #[\Override]
     protected function mutateFormDataBeforeSave(array $data): array
     {
         if (isset($data['original_path'])) {

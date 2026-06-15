@@ -13,10 +13,12 @@ class SlideShow extends Model
 {
     use HasFactory, HasSettings, InTeam;
 
+    #[\Override]
     protected $fillable = [
         'name', 'settings',
     ];
 
+    #[\Override]
     protected $casts = [
         'settings' => 'array',
     ];
@@ -25,6 +27,7 @@ class SlideShow extends Model
         'switchInterval' => '5',
     ];
 
+    /** @return BelongsToMany<Slide, $this, SlideShowSlide, 'pivot'> */
     public function slides(): BelongsToMany
     {
         return $this->belongsToMany(Slide::class)

@@ -12,8 +12,8 @@ class OptimizerService
     {
         $disk = Storage::disk('slides');
 
-        $manager = new ImageManager(new Driver());
-        $image = $manager->read($disk->path($path));
+        $manager = new ImageManager(new Driver);
+        $image = $manager->decodePath($disk->path($path));
         $image->save($disk->path($path));
 
         return $path;

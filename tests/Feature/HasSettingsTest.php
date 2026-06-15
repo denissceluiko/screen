@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\Screen;
-use App\Models\Team;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;

@@ -2,7 +2,6 @@
 
 use App\Models\Slide;
 use App\Models\SlideShow;
-use App\Models\Team;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

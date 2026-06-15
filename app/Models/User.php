@@ -17,15 +17,16 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements HasTenants, HasDefaultTenant, FilamentUser
+class User extends Authenticatable implements FilamentUser, HasDefaultTenant, HasTenants
 {
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
+    #[\Override]
     protected $fillable = [
         'name',
         'email',
@@ -36,8 +37,9 @@ class User extends Authenticatable implements HasTenants, HasDefaultTenant, Fila
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
+    #[\Override]
     protected $hidden = [
         'password',
         'remember_token',
@@ -48,6 +50,7 @@ class User extends Authenticatable implements HasTenants, HasDefaultTenant, Fila
      *
      * @var array<string, string>
      */
+    #[\Override]
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',

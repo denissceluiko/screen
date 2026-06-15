@@ -10,8 +10,10 @@ use Filament\Schemas\Schema;
 
 class ViewTeam extends ViewRecord
 {
+    #[\Override]
     protected static string $resource = TeamResource::class;
 
+    #[\Override]
     public function getHeaderActions(): array
     {
         return [
@@ -19,6 +21,7 @@ class ViewTeam extends ViewRecord
         ];
     }
 
+    #[\Override]
     public function infolist(Schema $schema): Schema
     {
         return $schema->components([

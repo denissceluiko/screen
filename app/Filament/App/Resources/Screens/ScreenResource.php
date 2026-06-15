@@ -11,10 +11,13 @@ use Filament\Resources\Resource;
 
 class ScreenResource extends Resource
 {
+    #[\Override]
     protected static ?string $model = Screen::class;
 
+    #[\Override]
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-computer-desktop';
 
+    #[\Override]
     public static function getRelations(): array
     {
         return [
@@ -22,6 +25,7 @@ class ScreenResource extends Resource
         ];
     }
 
+    #[\Override]
     public static function getPages(): array
     {
         return [

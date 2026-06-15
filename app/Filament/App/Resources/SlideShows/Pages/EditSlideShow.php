@@ -10,8 +10,10 @@ use Filament\Schemas\Schema;
 
 class EditSlideShow extends EditRecord
 {
+    #[\Override]
     protected static string $resource = SlideShowResource::class;
 
+    #[\Override]
     protected function getHeaderActions(): array
     {
         return [
@@ -19,6 +21,7 @@ class EditSlideShow extends EditRecord
         ];
     }
 
+    #[\Override]
     public function form(Schema $schema): Schema
     {
         return $schema

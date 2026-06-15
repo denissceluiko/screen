@@ -10,8 +10,10 @@ use Illuminate\Support\Str;
 
 class CreateScreen extends CreateRecord
 {
+    #[\Override]
     protected static string $resource = ScreenResource::class;
 
+    #[\Override]
     public function form(Schema $schema): Schema
     {
         return $schema
@@ -22,6 +24,7 @@ class CreateScreen extends CreateRecord
             ]);
     }
 
+    #[\Override]
     public function mutateFormDataBeforeCreate(array $data): array
     {
         $data['slug'] = Str::random(32);

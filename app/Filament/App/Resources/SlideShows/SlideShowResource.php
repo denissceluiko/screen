@@ -18,10 +18,13 @@ use Filament\Tables\Table;
 
 class SlideShowResource extends Resource
 {
+    #[\Override]
     protected static ?string $model = SlideShow::class;
 
+    #[\Override]
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    #[\Override]
     public static function table(Table $table): Table
     {
         return $table
@@ -68,6 +71,7 @@ class SlideShowResource extends Resource
             ]);
     }
 
+    #[\Override]
     public static function getRelations(): array
     {
         return [
@@ -75,6 +79,7 @@ class SlideShowResource extends Resource
         ];
     }
 
+    #[\Override]
     public static function getPages(): array
     {
         return [

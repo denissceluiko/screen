@@ -49,10 +49,10 @@ class ShowScreen extends Component
 
     private function computeSlidesHash(): string
     {
-        $slideshow = $this->screen->slideshow;
+        $slideshow = $this->screen->slideShow;
 
         if (! $slideshow) {
-            return md5($this->screen->updated_at->timestamp);
+            return md5((string) $this->screen->updated_at->timestamp);
         }
 
         $parts = $this->screen->updated_at->timestamp.'|'
@@ -64,7 +64,7 @@ class ShowScreen extends Component
 
     public function slides(): array
     {
-        $slideshow = $this->screen->slideshow;
+        $slideshow = $this->screen->slideShow;
 
         if (! $slideshow) {
             return [];
@@ -90,6 +90,6 @@ class ShowScreen extends Component
 
     public function updateInterval(): int
     {
-        return $this->screen->slideshow?->settings['switchInterval'] ?? 10;
+        return $this->screen->slideShow?->settings['switchInterval'] ?? 10;
     }
 }

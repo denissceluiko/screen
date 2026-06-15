@@ -16,8 +16,10 @@ use Filament\Tables\Table;
 
 class MembersRelationManager extends RelationManager
 {
+    #[\Override]
     protected static string $relationship = 'members';
 
+    #[\Override]
     public function form(Schema $schema): Schema
     {
         return $schema
@@ -62,6 +64,7 @@ class MembersRelationManager extends RelationManager
             ]);
     }
 
+    #[\Override]
     public function isReadOnly(): bool
     {
         return false;

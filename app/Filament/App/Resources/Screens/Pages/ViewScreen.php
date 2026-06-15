@@ -9,8 +9,10 @@ use Filament\Schemas\Schema;
 
 class ViewScreen extends ViewRecord
 {
+    #[\Override]
     protected static string $resource = ScreenResource::class;
 
+    #[\Override]
     public function infolist(Schema $schema): Schema
     {
         return $schema->components([

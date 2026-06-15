@@ -16,8 +16,10 @@ use Filament\Tables\Table;
 
 class TeamRelationManager extends RelationManager
 {
+    #[\Override]
     protected static string $relationship = 'teams';
 
+    #[\Override]
     public function form(Schema $schema): Schema
     {
         return $schema

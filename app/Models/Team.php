@@ -2,18 +2,32 @@
 
 namespace App\Models;
 
+use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use RuntimeException;
 
 class Team extends Model
 {
     use HasFactory;
 
+    #[\Override]
     protected $fillable = [
         'name', 'slug',
     ];
+
+    public static function current(): self
+    {
+        $tenant = Filament::getTenant();
+
+        if (! $tenant instanceof self) {
+            throw new RuntimeException('No active Team tenant.');
+        }
+
+        return $tenant;
+    }
 
     public function members(): BelongsToMany
     {

@@ -12,10 +12,13 @@ use Filament\Resources\Resource;
 
 class TeamResource extends Resource
 {
+    #[\Override]
     protected static ?string $model = Team::class;
 
+    #[\Override]
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    #[\Override]
     public static function getRelations(): array
     {
         return [
@@ -23,6 +26,7 @@ class TeamResource extends Resource
         ];
     }
 
+    #[\Override]
     public static function getPages(): array
     {
         return [

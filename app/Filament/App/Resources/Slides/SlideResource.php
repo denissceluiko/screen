@@ -15,10 +15,13 @@ use Filament\Schemas\Schema;
 
 class SlideResource extends Resource
 {
+    #[\Override]
     protected static ?string $model = Slide::class;
 
+    #[\Override]
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-photo';
 
+    #[\Override]
     public static function form(Schema $schema): Schema
     {
         return $schema
@@ -36,6 +39,7 @@ class SlideResource extends Resource
             ]);
     }
 
+    #[\Override]
     public static function getRelations(): array
     {
         return [
@@ -43,6 +47,7 @@ class SlideResource extends Resource
         ];
     }
 
+    #[\Override]
     public static function getPages(): array
     {
         return [
