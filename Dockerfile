@@ -21,6 +21,11 @@ RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --no-in
 COPY --chown=www-data:www-data . .
 COPY --from=assets --chown=www-data:www-data /app/public/build ./public/build
 
+# storage/ is excluded from the build context (bind-mounted at runtime), so the
+# framework skeleton must be recreated for the build-time artisan calls to boot.
+RUN mkdir -p storage/framework/cache storage/framework/sessions \
+             storage/framework/views storage/logs bootstrap/cache
+
 # Optimized autoloader; post-autoload-dump runs package:discover + filament:upgrade
 # (publishes Filament assets into the image). Config/route caching is done at
 # runtime in deploy.sh because it depends on .env.
